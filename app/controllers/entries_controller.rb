@@ -1,19 +1,18 @@
 class EntriesController < ApplicationController
   def new
-    # render view with new Entry form
+    # Render the new entry form
   end
 
   def create
-    # start with a new Entry
+    # Start with a new Entry
     @entry = Entry.new
-    # assign user-entered form data to Entry's columns
     @entry["title"] = params["title"]
     @entry["description"] = params["description"]
-    @entry["date"] = params["date"]
+    @entry["occurred_on"] = params["occurred_on"] # <-- Ensure this matches schema
     @entry["place_id"] = params["place_id"]
-    # save Entry row
+
+    # Save Entry and redirect user
     @entry.save
-    # redirect user to the place's page
     redirect_to "/places/#{@entry["place_id"]}"
   end
 end

@@ -1,28 +1,35 @@
 class PlacesController < ApplicationController
   def index
-    # find all Place rows
+    # Find all Place rows
     @places = Place.all
-    # render places/index view
+    # Render places/index view
   end
 
   def show
-    # find a Place
+    # Find a Place
     @place = Place.find_by({ "id" => params["id"] })
-    # render places/show view with details about Place
+
+    # Fetch all Entries associated with this Place
+    @entries = Entry.where({ "place_id" => @place["id"] })
+
+    # Ensure @entries is never nil
+    if @entries == nil
+      @entries = []
+    end
   end
 
   def new
-    # render view with new Place form
+    # Render view with new Place form
   end
 
   def create
-    # start with a new Place
+    # Start with a new Place
     @place = Place.new
-    # assign user-entered form data to Place's columns
+    # Assign user-entered form data to Place's columns
     @place["name"] = params["name"]
-    # save Place row
+    # Save Place row
     @place.save
-    # redirect user
+    # Redirect user
     redirect_to "/places"
   end
 end
